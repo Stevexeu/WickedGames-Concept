@@ -22,6 +22,7 @@ public class PlayerCore : MonoBehaviour
 
     private void Start()
     {
+
     }
 
     private void Update()
