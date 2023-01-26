@@ -8,9 +8,8 @@ public class PlayerCore : MonoBehaviour
     [SerializeField] public InputHandler inputHandler;
 
     [Header("References")]
-    [SerializeField] public Rigidbody physicsBody;
     [SerializeField] public Transform playerPos;
-    [SerializeField] public CharacterController characterController;
+    Rigidbody physicsBody;
 
     [Header("Input")]
 
@@ -22,17 +21,20 @@ public class PlayerCore : MonoBehaviour
 
     private void Start()
     {
-
-    }
-
-    private void Update()
-    {
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        characterController.Move(move * Time.deltaTime * walkSpeed);
+        physicsBody = GetComponent<Rigidbody>();
     }
 
     private void FixedUpdate()
     {
-        physicsBody.velocity = _movement * walkSpeed;
+        Vector3 m_Input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        Vector3 velocity = walkSpeed * m_Input;
+        velocity.y = physicsBody.velocity.y;
+        physicsBody.velocity = velocity;
+
+    }
+
+    public void Jump()
+    {
+
     }
 }

@@ -13,6 +13,7 @@ public class InputHandler : MonoBehaviour
     [SerializeField] public KeyCode walkLeft = KeyCode.A;
     [SerializeField] public KeyCode walkBack = KeyCode.S;
     [SerializeField] public KeyCode walkRight = KeyCode.D;
+    [SerializeField] public KeyCode jump = KeyCode.Space;
 
     [Header("Interaction Inputs")]
     [SerializeField] public KeyCode openInventory = KeyCode.I;
@@ -38,5 +39,13 @@ public class InputHandler : MonoBehaviour
             playerCore.playerPos.localScale = new Vector3(-1, 1, 1);
         }
         _movement = new Vector3(inputX, 0, inputY).normalized;
+    }
+
+    private void FixedUpdate()
+    {
+        if (Input.GetKeyDown(jump))
+        {
+            playerCore.Jump();
+        }
     }
 }
