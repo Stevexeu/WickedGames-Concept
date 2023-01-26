@@ -311,7 +311,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 412040616}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 60.543266, y: -11.288141, z: 87.78372}
   m_LocalScale: {x: 100, y: 1, z: 100}
   m_ConstrainProportionsScale: 0
@@ -2328,7 +2328,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.9578142, y: 6.818453, z: 0.7471304}
+  m_Size: {x: 3.9578142, y: 6.818053, z: 0.7471304}
   m_Center: {x: -0.18796015, y: 3.4017122, z: 0.1599985}
 --- !u!54 &5838816985788229624
 Rigidbody:
@@ -2358,7 +2358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a8be37e16edac9419fc155803c19b66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputHandler: {fileID: 0}
+  inputHandler: {fileID: 1531919577}
   physicsBody: {fileID: 5838816985788229624}
   playerPos: {fileID: 5789398089301498157}
   characterController: {fileID: 5838816985788229626}
