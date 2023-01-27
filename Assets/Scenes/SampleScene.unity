@@ -1525,6 +1525,7 @@ MonoBehaviour:
   walkRight: 100
   jump: 32
   crouch: 99
+  run: 304
   openInventory: 105
 --- !u!4 &1531919578
 Transform:
@@ -2261,8 +2262,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2937972551385722804, guid: b0bfbf92604d7194294037f04451ee5e, type: 3}
+      propertyPath: runSpeed
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 2937972551385722804, guid: b0bfbf92604d7194294037f04451ee5e, type: 3}
+      propertyPath: walkSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2937972551385722804, guid: b0bfbf92604d7194294037f04451ee5e, type: 3}
       propertyPath: jumpHeight
-      value: 65
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2937972551385722804, guid: b0bfbf92604d7194294037f04451ee5e, type: 3}
+      propertyPath: crouchSpeed
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2937972551385722804, guid: b0bfbf92604d7194294037f04451ee5e, type: 3}
       propertyPath: crouchHeight
@@ -2275,6 +2288,10 @@ PrefabInstance:
     - target: {fileID: 2937972551385722804, guid: b0bfbf92604d7194294037f04451ee5e, type: 3}
       propertyPath: normalHeight
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2937972551385722804, guid: b0bfbf92604d7194294037f04451ee5e, type: 3}
+      propertyPath: groundDistance
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2937972551385722805, guid: b0bfbf92604d7194294037f04451ee5e, type: 3}
       propertyPath: m_RootOrder

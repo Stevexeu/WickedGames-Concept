@@ -80,9 +80,12 @@ MonoBehaviour:
   playerPos: {fileID: 2937972551385722805}
   animator: {fileID: 139188126176516155}
   walkSpeed: 11
-  gravityDrag: 0.3
-  jumpHeight: 65
-  isGrounded: 1
+  crouchSpeed: 4
+  movementSpeed: 11
+  jumpSpeed: 70
+  gravityScale: 2
+  fallingGravityScale: 30
+  isWalking: 0
 --- !u!1 &2937972552631363650
 GameObject:
   m_ObjectHideFlags: 0

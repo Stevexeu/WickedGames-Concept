@@ -17,23 +17,61 @@ public class PlayerCore : MonoBehaviour
     public Animator animator;
 
     [Header("Movement")]
-    [SerializeField] public float walkSpeed = 11f;
-    [SerializeField] public float crouchSpeed = 4f;
+    [SerializeField] public float runSpeed = 15f;
+    [SerializeField] public float walkSpeed = 10f;
+    [SerializeField] public float crouchSpeed = 8f;
     [SerializeField] public float movementSpeed = 0f;
-    [SerializeField] public float gravityDrag = 1f;
-    [SerializeField] public float jumpHeight = 100f;
-    [SerializeField] public float normalHeight, crouchHeight;
     private Vector2 currentSpeed;
 
+    [Header("Jumping")]
+    [SerializeField] public float jumpSpeed = 100f;
+    [SerializeField] public float gravityScale = 10f;
+    [SerializeField] public float fallingGravityScale = 30f;
+    private float currentGravityScale;
+
     [Header("Booleans")]
-    [SerializeField] public bool isGrounded = false;
     [SerializeField] public bool isWalking = false;
+    [SerializeField] public bool isGrounded = true;
+    [SerializeField] public bool isCrouching = false;
 
     private void Start()
     {
         movementSpeed = walkSpeed;
+        currentGravityScale = gravityScale;
         physicsBody = GetComponent<Rigidbody>();
 
+    }
+
+    private void Update()
+    {
+        if (physicsBody.velocity.y >= 0)
+            currentGravityScale = gravityScale;
+        else if (physicsBody.velocity.y < 0)
+            currentGravityScale = fallingGravityScale;
+        if (physicsBody.velocity.y <= -0.12)
+        {
+            isGrounded = true;
+            animator.SetBool("IsGrounded", true);
+        }
+
+        else if (physicsBody.velocity.y >= 0.12)
+        {
+            isGrounded = false;
+            animator.SetBool("IsGrounded", false);
+        }
+
+        if (currentSpeed.x > 0 | currentSpeed.y > 0 | currentSpeed.x < 0 | currentSpeed.y < 0)
+        {
+            if (Input.GetAxisRaw("Vertical") < 0 | Input.GetAxisRaw("Vertical") > 0 | Input.GetAxisRaw("Horizontal") < 0 | Input.GetAxisRaw("Horizontal") > 0)
+            {
+                isWalking = true;
+                animator.SetBool("isWalking", true);
+                animator.SetFloat("Speed", currentSpeed.magnitude);
+                animator.SetFloat("Vertical", currentSpeed.x);
+                animator.SetFloat("Horizontal", currentSpeed.y);
+            }
+        }
+        animator.SetFloat("Speed", currentSpeed.magnitude);
     }
 
     private void FixedUpdate()
@@ -51,51 +89,37 @@ public class PlayerCore : MonoBehaviour
         currentSpeed.x = (Input.GetAxisRaw("Vertical"));
         currentSpeed.y = (Input.GetAxisRaw("Horizontal"));
 
-    }
-
-    private void Update()
-    {
-        if (currentSpeed.x > 0 | currentSpeed.y > 0 | currentSpeed.x < 0 | currentSpeed.y < 0)
-        {
-            if (Input.GetAxisRaw("Vertical") < 0 | Input.GetAxisRaw("Vertical") > 0 | Input.GetAxisRaw("Horizontal") < 0 | Input.GetAxisRaw("Horizontal") > 0)
-            {
-                isWalking = true;
-                animator.SetBool("isWalking", true);
-                animator.SetFloat("Speed", currentSpeed.magnitude);
-                animator.SetFloat("Vertical", currentSpeed.x);
-                animator.SetFloat("Horizontal", currentSpeed.y);
-            }
-        }
-        animator.SetFloat("Speed", currentSpeed.magnitude);
+        physicsBody.AddForce(Physics.gravity * (gravityScale - 1) * physicsBody.mass);
     }
 
     public void Jump()
     {
-        animator.SetTrigger("ShouldJump");
-        physicsBody.AddForce(new Vector3(0, jumpHeight, 0), ForceMode.Impulse);
+        physicsBody.AddForce(Vector2.up * jumpSpeed, ForceMode.Impulse);
+    }
+
+    public void StartRunning()
+    {
+        movementSpeed = runSpeed;
+        animator.SetBool("ShouldRun", true);
+    }
+
+    public void StopRunning()
+    {
+        movementSpeed = walkSpeed;
+        animator.SetBool("ShouldRun", false);
     }
 
     public void StartCrouch()
     {
+        isCrouching = true;
         movementSpeed = crouchSpeed;
         animator.SetBool("ShouldCrouch", true);
     }
 
     public void StopCrouch()
     {
+        isCrouching = false;
         movementSpeed = walkSpeed;
         animator.SetBool("ShouldCrouch", false);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        animator.SetBool("IsGrounded", true);
-        isGrounded = true;
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        animator.SetBool("IsGrounded", false);
-        isGrounded = false;
     }
 }
