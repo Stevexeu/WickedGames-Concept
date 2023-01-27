@@ -41,3 +41,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Map
+    uniqueID: 1938851415
+    locked: 0
+  - name: Objects
+    uniqueID: 2298234117
+    locked: 0
+  - name: BehindPlayer
+    uniqueID: 2825789459
+    locked: 0
+  - name: Player
+    uniqueID: 3521581231
+    locked: 0
+  - name: inFrontPlayer
+    uniqueID: 673809099
+    locked: 0

@@ -8,30 +8,54 @@ public class PlayerCore : MonoBehaviour
     [SerializeField] public InputHandler inputHandler;
 
     [Header("References")]
-    [SerializeField] public Rigidbody physicsBody;
     [SerializeField] public Transform playerPos;
-    [SerializeField] public CharacterController characterController;
-
-    [Header("Input")]
-
+    Rigidbody physicsBody;
+    public Animator animator;
 
     [Header("Movement")]
     [SerializeField] public float walkSpeed = 5f;
+    [SerializeField] public float gravityDrag = 1f;
+    [SerializeField] public float jumpHeight = 100f;
     private Vector3 _movement;
+    private Vector2 currentSpeed;
+
+    [Header("Booleans")]
+    [SerializeField] public bool isGrounded = true;
 
 
     private void Start()
     {
-    }
-
-    private void Update()
-    {
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        characterController.Move(move * Time.deltaTime * walkSpeed);
+        physicsBody = GetComponent<Rigidbody>();
     }
 
     private void FixedUpdate()
     {
-        physicsBody.velocity = _movement * walkSpeed;
+        Vector3 m_Input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        Vector3 velocity = walkSpeed * m_Input;
+        velocity.y = physicsBody.velocity.y * gravityDrag;
+        physicsBody.velocity = velocity;
+        currentSpeed.x = (Input.GetAxisRaw("Vertical"));
+        currentSpeed.y = (Input.GetAxisRaw("Horizontal"));
+
+    }
+
+    private void Update()
+    {
+        if (currentSpeed.x > 0 | currentSpeed.y > 0 | currentSpeed.x < 0 | currentSpeed.y < 0)
+        {
+            if (Input.GetAxisRaw("Vertical") < 0 | Input.GetAxisRaw("Vertical") > 0 | Input.GetAxisRaw("Horizontal") < 0 | Input.GetAxisRaw("Horizontal") > 0)
+            {
+                animator.SetFloat("Speed", currentSpeed.magnitude);
+                animator.SetFloat("Vertical", currentSpeed.x);
+                animator.SetFloat("Horizontal", currentSpeed.y);
+            }
+        }
+        animator.SetFloat("Speed", currentSpeed.magnitude);
+    }
+
+    public void Jump()
+    {
+        physicsBody.AddForce(new Vector3(0, jumpHeight, 0), ForceMode.Impulse);
+        isGrounded = false;
     }
 }
