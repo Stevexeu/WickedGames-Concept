@@ -14,6 +14,7 @@ public class InputHandler : MonoBehaviour
     [SerializeField] public KeyCode walkBack = KeyCode.S;
     [SerializeField] public KeyCode walkRight = KeyCode.D;
     [SerializeField] public KeyCode jump = KeyCode.Space;
+    [SerializeField] public KeyCode crouch = KeyCode.C;
 
     [Header("Interaction Inputs")]
     [SerializeField] public KeyCode openInventory = KeyCode.I;
@@ -23,6 +24,16 @@ public class InputHandler : MonoBehaviour
         if (Input.GetKeyDown(jump) && playerCore.isGrounded)
         {
             playerCore.Jump();
+        }
+
+        if (Input.GetKeyDown(crouch) && playerCore.isGrounded)
+        {
+            playerCore.StartCrouch();
+        }
+
+        if (Input.GetKeyUp(crouch) && playerCore.isGrounded)
+        {
+            playerCore.StopCrouch();
         }
     }
 
