@@ -2,7 +2,6 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
@@ -72,7 +71,7 @@ public class PlayerCore : MonoBehaviour
 
     public void Jump()
     {
-        animator.SetTrigger("IsJumping");
+        animator.SetTrigger("ShouldJump");
         physicsBody.AddForce(new Vector3(0, jumpHeight, 0), ForceMode.Impulse);
     }
 
@@ -90,17 +89,13 @@ public class PlayerCore : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Ground" | collision.gameObject.tag == "Object")
-        {
-            animator.SetBool("IsGrounded", true);
-            isGrounded = true;
-        }
+        animator.SetBool("IsGrounded", true);
+        isGrounded = true;
     }
 
     private void OnCollisionExit(Collision collision)
     {
         animator.SetBool("IsGrounded", false);
-        animator.SetTrigger("ShouldJump");
         isGrounded = false;
     }
 }
