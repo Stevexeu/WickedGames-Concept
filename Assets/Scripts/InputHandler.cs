@@ -21,7 +21,7 @@ public class InputHandler : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(jump) && playerCore.isGrounded)
+        if (Input.GetKeyDown(jump) && playerCore.isGrounded && !(Input.GetKey(crouch)))
         {
             playerCore.Jump();
         }
