@@ -72,6 +72,7 @@ public class PlayerCore : MonoBehaviour
 
     public void Jump()
     {
+        animator.SetTrigger("IsJumping");
         physicsBody.AddForce(new Vector3(0, jumpHeight, 0), ForceMode.Impulse);
     }
 
@@ -89,7 +90,7 @@ public class PlayerCore : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Ground")
+        if (collision.gameObject.tag == "Ground" | collision.gameObject.tag == "Object")
         {
             animator.SetBool("IsGrounded", true);
             isGrounded = true;
