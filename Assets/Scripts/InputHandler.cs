@@ -20,32 +20,14 @@ public class InputHandler : MonoBehaviour
 
     private void Update()
     {
-        float inputY = 0;
-        if (Input.GetKey(KeyCode.D))
-            inputY = 1;
-        else if (Input.GetKey(KeyCode.A))
-            inputY = -1;
-
-        // Horizontal
-        float inputX = 0;
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKeyDown(jump) && playerCore.isGrounded)
         {
-            inputX = 1;
-            playerCore.playerPos.localScale = new Vector3(1, 1, 1);
+            playerCore.Jump();
         }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            inputX = -1;
-            playerCore.playerPos.localScale = new Vector3(-1, 1, 1);
-        }
-        _movement = new Vector3(inputX, 0, inputY).normalized;
     }
 
     private void FixedUpdate()
     {
-        if (Input.GetKeyDown(jump))
-        {
-            playerCore.Jump();
-        }
+
     }
 }
