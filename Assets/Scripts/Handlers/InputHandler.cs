@@ -6,6 +6,7 @@ public class InputHandler : MonoBehaviour
 {
     [Header("Referebces")]
     public PlayerCore playerCore;
+    public InventoryCore inventoryCore;
     private Vector3 _movement;
 
     [Header("Movement Inputs")]
@@ -32,6 +33,8 @@ public class InputHandler : MonoBehaviour
             playerCore.StartRunning();
         if (Input.GetKeyUp(run) && playerCore.isGrounded)
             playerCore.StopRunning();
+        if (Input.GetKeyUp(openInventory))
+            inventoryCore.openInventory();
     }
 
     private void FixedUpdate()
