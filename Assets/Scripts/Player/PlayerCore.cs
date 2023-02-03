@@ -8,6 +8,8 @@ using UnityEngine.UIElements;
 
 public class PlayerCore : MonoBehaviour
 {
+    public static PlayerCore Instance;
+
     [Header("Scripts")]
     [SerializeField] public InputHandler inputHandler;
 
@@ -29,10 +31,20 @@ public class PlayerCore : MonoBehaviour
     [SerializeField] public float fallingGravityScale = 30f;
     private float currentGravityScale;
 
+    [Header("Health & Experience")]
+    [SerializeField] public int Health;
+    [SerializeField] public int Exp;
+
     [Header("Booleans")]
     [SerializeField] public bool isWalking = false;
     [SerializeField] public bool isGrounded = true;
     [SerializeField] public bool isCrouching = false;
+    [SerializeField] public bool canMove = true;
+
+    private void Awake()
+    {
+        Instance = this;    
+    }
 
     private void Start()
     {
@@ -82,25 +94,32 @@ public class PlayerCore : MonoBehaviour
             animator.SetBool("isWalking", false);
         }
 
-        Vector3 m_Input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        Vector3 velocity = movementSpeed * m_Input;
-        velocity.y = physicsBody.velocity.y;
-        physicsBody.velocity = velocity;
-        currentSpeed.x = (Input.GetAxisRaw("Vertical"));
-        currentSpeed.y = (Input.GetAxisRaw("Horizontal"));
+        if (canMove)
+        {
+            Vector3 m_Input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            Vector3 velocity = movementSpeed * m_Input;
+            velocity.y = physicsBody.velocity.y;
+            physicsBody.velocity = velocity;
+            currentSpeed.x = (Input.GetAxisRaw("Vertical"));
+            currentSpeed.y = (Input.GetAxisRaw("Horizontal"));
+        }
 
         physicsBody.AddForce(Physics.gravity * (gravityScale - 1) * physicsBody.mass);
     }
 
     public void Jump()
     {
-        physicsBody.AddForce(Vector2.up * jumpSpeed, ForceMode.Impulse);
+        if (canMove)
+            physicsBody.AddForce(Vector2.up * jumpSpeed, ForceMode.Impulse);
     }
 
     public void StartRunning()
     {
-        movementSpeed = runSpeed;
-        animator.SetBool("ShouldRun", true);
+        if (canMove)
+        {
+            movementSpeed = runSpeed;
+            animator.SetBool("ShouldRun", true);
+        }
     }
 
     public void StopRunning()
@@ -111,9 +130,12 @@ public class PlayerCore : MonoBehaviour
 
     public void StartCrouch()
     {
-        isCrouching = true;
-        movementSpeed = crouchSpeed;
-        animator.SetBool("ShouldCrouch", true);
+        if (canMove)
+        {
+            isCrouching = true;
+            movementSpeed = crouchSpeed;
+            animator.SetBool("ShouldCrouch", true);
+        }
     }
 
     public void StopCrouch()
@@ -121,5 +143,15 @@ public class PlayerCore : MonoBehaviour
         isCrouching = false;
         movementSpeed = walkSpeed;
         animator.SetBool("ShouldCrouch", false);
+    }
+
+    public void IncreaseHealth(int value)
+    {
+        Health += value;
+    }
+
+    public void IncreaseExp(int value)
+    {
+        Exp += value;
     }
 }
